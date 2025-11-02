@@ -35,7 +35,7 @@ class ProfileController extends GetxController implements GetxService {
   bool _backgroundNotification = true;
   bool get backgroundNotification => _backgroundNotification;
 
-  void hideLowStockWarning(){
+  void hideLowStockWarning() {
     _showLowStockWarning = !_showLowStockWarning;
   }
 
@@ -43,17 +43,22 @@ class ProfileController extends GetxController implements GetxService {
     ProfileModel? profileModel = await profileServiceInterface.getProfileInfo();
     if (profileModel != null) {
       _profileModel = profileModel;
-      Get.find<SplashController>().setModule(_profileModel!.stores![0].module!.id, _profileModel!.stores![0].module!.moduleType);
-      profileServiceInterface.updateHeader(_profileModel!.stores![0].module!.id);
+      Get.find<SplashController>().setModule(
+          _profileModel!.stores![0].module!.id,
+          _profileModel!.stores![0].module!.moduleType);
+      profileServiceInterface
+          .updateHeader(_profileModel!.stores![0].module!.id);
       _allowModulePermission(_profileModel?.roles);
     }
     update();
   }
 
-  Future<bool> updateUserInfo(ProfileModel updateUserModel, String token) async {
+  Future<bool> updateUserInfo(
+      ProfileModel updateUserModel, String token) async {
     _isLoading = true;
     update();
-    bool isSuccess = await profileServiceInterface.updateProfile(updateUserModel, _pickedFile, token);
+    bool isSuccess = await profileServiceInterface.updateProfile(
+        updateUserModel, _pickedFile, token);
     _isLoading = false;
     if (isSuccess) {
       await getProfile();
@@ -66,7 +71,7 @@ class ProfileController extends GetxController implements GetxService {
 
   void pickImage() async {
     XFile? picked = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(picked != null) {
+    if (picked != null) {
       _pickedFile = picked;
     }
     update();
@@ -81,7 +86,7 @@ class ProfileController extends GetxController implements GetxService {
       showCustomSnackBar(responseModel.message, isError: false);
       Get.find<AuthController>().clearSharedData();
       Get.offAllNamed(RouteHelper.getSignInRoute());
-    }else{
+    } else {
       Get.back();
       showCustomSnackBar(responseModel.message, isError: true);
     }
@@ -125,10 +130,33 @@ class ProfileController extends GetxController implements GetxService {
       );
     } else {
       _modulePermissionBody = ModulePermissionModel(
-        dashboard: true, profile: true, order: true, pos: true, item: true, addon: true, category: true, campaign: true, coupon: true, banner: true,
-        advertisement: true, advertisementList: true, deliveryman: true, deliverymanList: true, wallet: true, walletMethod: true, role: true,
-        employee: true, expenseReport: true, disbursementReport: true, vatReport: true, storeSetup: true, notificationSetup: true,
-        myShop: true, businessPlan: true, reviews: true, chat: true,
+        dashboard: true,
+        profile: true,
+        order: true,
+        pos: true,
+        item: true,
+        addon: true,
+        category: true,
+        campaign: true,
+        coupon: true,
+        banner: true,
+        advertisement: true,
+        advertisementList: true,
+        deliveryman: true,
+        deliverymanList: true,
+        wallet: true,
+        walletMethod: true,
+        role: true,
+        employee: true,
+        expenseReport: true,
+        disbursementReport: true,
+        vatReport: true,
+        storeSetup: true,
+        notificationSetup: true,
+        myShop: true,
+        businessPlan: true,
+        reviews: true,
+        chat: true,
       );
     }
   }
@@ -139,7 +167,11 @@ class ProfileController extends GetxController implements GetxService {
 
   Future<bool> trialWidgetShow({required String route}) async {
     const Set<String> routesToHideWidget = {
-      RouteHelper.mySubscription, 'show-dialog', RouteHelper.success, RouteHelper.payment, RouteHelper.signIn,
+      RouteHelper.mySubscription,
+      'show-dialog',
+      RouteHelper.success,
+      RouteHelper.payment,
+      RouteHelper.signIn,
     };
     _trialWidgetNotShow = routesToHideWidget.contains(route);
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -148,7 +180,7 @@ class ProfileController extends GetxController implements GetxService {
     return _trialWidgetNotShow;
   }
 
-  void initTrialWidgetNotShow(){
+  void initTrialWidgetNotShow() {
     _trialWidgetNotShow = false;
   }
 
@@ -156,5 +188,4 @@ class ProfileController extends GetxController implements GetxService {
     _backgroundNotification = isActive;
     update();
   }
-
 }

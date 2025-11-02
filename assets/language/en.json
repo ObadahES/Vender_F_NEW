@@ -1437,5 +1437,6 @@
   "deliver_the_reception_desk": "Deliver to the reception desk",
   "avoid_calling_phone": "Avoid Calling Phone",
   "come_with_no_sound": "Come with no sound",
-  "used" : "Used"
+  "used" : "Used",
+  "enable_usd_pricing": "Enable USD Pricing"
 }

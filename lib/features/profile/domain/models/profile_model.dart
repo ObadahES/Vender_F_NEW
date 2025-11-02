@@ -143,7 +143,9 @@ class ProfileModel {
     if (json['subscription'] != null) {
       subscription = Subscription.fromJson(json['subscription']);
     }
-    subscriptionOtherData = json['subscription_other_data'] != null ? SubscriptionOtherData.fromJson(json['subscription_other_data']) : null;
+    subscriptionOtherData = json['subscription_other_data'] != null
+        ? SubscriptionOtherData.fromJson(json['subscription_other_data'])
+        : null;
     subscriptionTransactions = json['subscription_transactions'] ?? false;
     outOfStockCount = json['out_of_stock_count'];
   }
@@ -248,6 +250,11 @@ class Store {
   double? extraPackagingAmount;
   bool? isHalalActive;
   double? minimumStockForWarning;
+  //OES
+  bool? enableUSD;
+  bool? adminEnabelUsd;
+//OES
+  bool get isAdminEnableUsd => adminEnabelUsd ?? false;
 
   Store({
     this.id,
@@ -301,6 +308,9 @@ class Store {
     this.extraPackagingAmount,
     this.isHalalActive,
     this.minimumStockForWarning,
+    //OES
+    this.enableUSD,
+    this.adminEnabelUsd,
   });
 
   Store.fromJson(Map<String, dynamic> json) {
@@ -332,15 +342,20 @@ class Store {
     gstCode = json['gst_code'];
     selfDeliverySystem = json['self_delivery_system'];
     posSystem = json['pos_system'];
-    minimumShippingCharge = json['minimum_shipping_charge'] != null ? json['minimum_shipping_charge']?.toDouble() : 0.0;
+    minimumShippingCharge = json['minimum_shipping_charge'] != null
+        ? json['minimum_shipping_charge']?.toDouble()
+        : 0.0;
     maximumShippingCharge = json['maximum_shipping_charge']?.toDouble();
-    perKmShippingCharge = json['per_km_shipping_charge'] != null ? json['per_km_shipping_charge']?.toDouble() : 0.0;
+    perKmShippingCharge = json['per_km_shipping_charge'] != null
+        ? json['per_km_shipping_charge']?.toDouble()
+        : 0.0;
     deliveryTime = json['delivery_time'];
     veg = json['veg'];
     nonVeg = json['non_veg'];
     orderPlaceToScheduleInterval = json['order_place_to_schedule_interval'];
     module = json['module'] != null ? Module.fromJson(json['module']) : null;
-    discount = json['discount'] != null ? Discount.fromJson(json['discount']) : null;
+    discount =
+        json['discount'] != null ? Discount.fromJson(json['discount']) : null;
     if (json['schedules'] != null) {
       schedules = <Schedules>[];
       json['schedules'].forEach((v) {
@@ -360,6 +375,9 @@ class Store {
     extraPackagingAmount = json['extra_packaging_amount']?.toDouble();
     isHalalActive = json['halal_tag_status'] ?? false;
     minimumStockForWarning = json['minimum_stock_for_warning']?.toDouble();
+//OES
+    enableUSD = json['store_usd_pricing_status'] ?? false;
+    adminEnabelUsd = json['admin_enabel_usd'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -421,6 +439,8 @@ class Store {
     data['extra_packaging_amount'] = extraPackagingAmount;
     data['halal_tag_status'] = isHalalActive;
     data['minimum_stock_for_warning'] = minimumStockForWarning;
+    //OES
+    data['store_usd_pricing_status'] = enableUSD;
     return data;
   }
 }
@@ -681,7 +701,8 @@ class Subscription {
     isCanceled = json['is_canceled'];
     canceledBy = json['canceled_by'];
     validity = json['validity'];
-    package = json['package'] != null ? Package.fromJson(json['package']) : null;
+    package =
+        json['package'] != null ? Package.fromJson(json['package']) : null;
   }
 
   Map<String, dynamic> toJson() {
